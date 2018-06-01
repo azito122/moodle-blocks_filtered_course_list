@@ -31,15 +31,17 @@ defined('MOODLE_INTERNAL') || die;
  * @copyright  2016 CLAMP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// use \local_fcl_starred_courses\fclinterface\edit_form;
+
 class block_filtered_course_list_edit_form extends block_edit_form {
 
     /**
      * Builds the form to edit instance settings
-     *
+     *shortname | expanded | Current courses | S18
      * @param MoodleQuickForm $mform
      */
     protected function specific_definition($mform) {
-
         // Section header title according to language file.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
@@ -56,5 +58,35 @@ class block_filtered_course_list_edit_form extends block_edit_form {
         $mform->setDefault('config_filters', get_config('block_filtered_course_list', 'filters'));
         $mform->addHelpButton('config_filters', 'filters', 'block_filtered_course_list');
         $mform->setType('config_filters', PARAM_RAW);
+
+        $exfilters = array('starred_courses');
+
+        foreach ($exfilters as $exfilter) {
+            $base = "\\local_fcl_$exfilter";
+            $editform = "\\local_fcl_$exfilter\\fclinterface\\edit_form";
+            $filter = "\\local_fcl_$exfilter\\fclinterface\\filter";
+
+            // Add header (section).
+            $mform->addElement('header', "${exfilter}_header", get_string('exfilter:form:header', 'block_filtered_course_list', $edit_form->get_header_name()));
+
+            // Add filter title field.
+            $fname = "${exfilter}_title";
+            $mform->addElement('text', $fname, get_string('exfilter:form_label:title', 'block_filtered_course_list'));
+            $mform->setDefault($fname, $edit_form->get_default_title());
+            $mform->setType($fname, PARAM_TEXT);
+
+            // Add the limit field.
+            $fname = "${exfilter}_limit";
+            $mform->addElement('text', $fname, get_string('exfilter:form_label:limit', 'block_filtered_course_list'));
+            $mform->setDefault($fname, $edit_form->get_default_title());
+            $mform->setType($fname, PARAM_RAW);
+
+            // Allow header?
+
+            // Allow footer?
+
+            // And allow the external filter to add any custom settings.
+            $class::specific_definition($mform);
+        }
     }
 }
