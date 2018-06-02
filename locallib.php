@@ -95,6 +95,111 @@ abstract class block_filtered_course_list_configline {
 }
 
 /**
+ * A class to construct rubrics based on user starred courses
+ *
+ * @package    block_filtered_course_list
+ * @copyright  2016 CLAMP
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class block_filtered_course_list_starred_configline extends block_filtered_course_list_configline {
+
+    /**
+     * Validate the line
+     *
+     * @param array $line The array of line elements that has been passed to the constructor (index 0 is the filter type;
+     * index 1 is the other settings)
+     * @return array A fixed-up line array
+     */
+    public function validate_line($line) {
+        $USER->id;
+        $this->initialize_starred_courses_user_preference($USER->id);
+
+        $keys = array('expanded', 'label');
+        $values = array_map(function($item) {
+            return trim($item);
+        }, explode('|', $line[1], 2));
+        $this->validate_expanded(0, $values);
+        if (!array_key_exists(1, $values)) {
+            $values[1] = get_string('courses', 'block_filtered_course_list');
+        }
+        if (!array_key_exists(2, $values)) {
+            $values[2] = '';
+        }
+        return array_combine($keys, $values);
+    }
+
+    /**
+     * Populate the array of rubrics for this filter type
+     *
+     * @return array The list of rubric objects corresponding to the filter
+     */
+    public function get_rubrics() {
+        global $USER, $COURSE;
+
+        if (empty($courselist)) {
+            return null;
+        }
+
+        $courselist = $this->get_starred_courses($USER->id);
+
+        if (isset($COURSE) && $COURSE->id > 1) {
+            if ($this->course_is_starred($COURSE->id)) {
+                $linktext = 'Unstar current course';
+            } else {
+                $linktext = 'Star current course';
+            }
+        }
+
+        $this->config->footer = html_writer::link(
+            new moodle_url('/toggle_starred.php', array('courseid' => $COURSE->id)),
+            $linktext,
+            array('class' => 'starlink')
+        );
+
+        $this->rubrics[] = new block_filtered_course_list_rubric(
+            $this->line['label'],
+            $courselist,
+            $this->config,
+            $this->line['expanded']);
+        return $this->rubrics;
+    }
+
+    public function course_is_starred($userid, $courseid) {
+        if ($starred = get_starred_course_ids($userid)) {
+            return in_array($courseid, $starred);
+        }
+        return false;
+    }
+
+    public function get_starred_courses($userid) {
+        global $DB;
+
+        $starred_courses = array();
+        if ($starred_ids = $this->get_starred_course_ids($userid)) {
+            foreach ($starred_ids as $courseid) {
+                $course = $DB->get_record('course', array('id' => $courseid));
+                $starred_courses[] = $course;
+            }
+        }
+        return $starred_courses;
+    }
+
+    public function get_starred_course_ids($userid) {
+        $starred = get_user_preferences('starred_courses', false, $userid);
+        if ($starred = explode(',', $starred)) {
+            return $starred;
+        }
+        return false;
+    }
+
+    public function initialize_starred_courses_user_preference($userid) {
+        if (! get_user_preferences('starred_courses', false, $userid)) {
+            set_user_preference('starred_courses', '', $userid);
+        }
+    }
+}
+
+/**
  * A class to construct rubrics based on shortname matches
  *
  * @package    block_filtered_course_list
