@@ -22,7 +22,7 @@
  */
 
 require_once('../../config.php');
-require_once('lib.php');
+require_once('locallib.php');
 
 $courseid    = required_param('courseid', PARAM_INT);
 $course      = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
@@ -32,22 +32,24 @@ require_login($course);
 // Check permissions.
 $coursecontext = context_course::instance($course->id);
 $usercontext = context_user::instance($USER->id);
-require_capability('local/starred_courses:canstar', $usercontext);
+// require_capability('local/starred_courses:canstar', $usercontext);
 
 if ($courseid ===1 ) {
     $status = "Cannot star front page course";
 }
 
-if (course_is_starred($USER->id, $courseid)) {
-    unstar_course($USER->id, $courseid);
-    $status = get_string('notify:course_unstarred', 'block_filtered_course_list', $COURSE);
+$filterclass = 'block_filtered_course_list_starred_lib';
+
+if ($filterclass::course_is_starred($USER->id, $courseid)) {
+    $filterclass::unstar_course($USER->id, $courseid);
+    $status = get_string('notify:course_unstarred', 'block_filtered_course_list', $course);
 } else {
-    star_course($USER->id, $courseid);
-    $status = get_string('notify:course_starred', 'block_filtered_course_list', $COURSE);
+    $filterclass::star_course($USER->id, $courseid);
+    $status = get_string('notify:course_starred', 'block_filtered_course_list', $course);
 }
 
-// $blockname = get_string('pluginname', 'block_filtered_course_list');
-$header = "Star/unstar course";
+$blockname = "Starred Courses";
+$header = $blockname;
 
 $PAGE->set_context($coursecontext);
 $PAGE->set_course($course);
@@ -55,7 +57,7 @@ $PAGE->navbar->add($blockname);
 $PAGE->navbar->add($header);
 $PAGE->set_title($blockname . ': ' . $header);
 $PAGE->set_heading($blockname . ': ' . $header);
-$PAGE->set_url('/blocks/starred_courses/toggle_starred.php', array('courseid' => $courseid));
+$PAGE->set_url('/blocks/filtered_course_list/toggle_starred.php', array('courseid' => $courseid));
 $PAGE->set_pagetype($blockname);
 $PAGE->set_pagelayout('standard');
 

@@ -70,5 +70,9 @@
             {{> block_filtered_course_list/list_item }}
         {{/ items }}
     </ul>
-    {{> block_filtered_course_list/footer }}
+    {{# footer? }}
+    <div class='block-fcl__rubric_footer'>
+        <a href='{{ footer_url }}'>{{ footer_linktext }}</a>
+    </div>
+    {{/ footer? }}
 </div>

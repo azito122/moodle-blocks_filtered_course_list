@@ -92,6 +92,10 @@ abstract class block_filtered_course_list_configline {
         }
         $arr[$index] = (core_text::strpos($arr[$index], 'e') === 0) ? 'expanded' : 'collapsed';
     }
+
+    public function get_no_courses_content() {
+        return false;
+    }
 }
 
 /**
@@ -113,7 +117,8 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
         global $USER;
 
         $USER->id;
-        $this->initialize_starred_courses_user_preference($USER->id);
+        $lib = 'block_filtered_course_list_starred_lib';
+        $lib::initialize_starred_courses_user_preference($USER->id);
 
         $keys = array('expanded', 'label');
         $values = array_map(function($item) {
@@ -134,14 +139,24 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
     public function get_rubrics() {
         global $USER, $COURSE;
 
-        $courselist = $this->get_starred_courses($USER->id);
+        $lib = 'block_filtered_course_list_starred_lib';
+        $courselist = $lib::get_starred_courses($USER->id);
+
+        if (empty($courselist)) {
+            return null;
+        }
 
         if (isset($COURSE) && $COURSE->id > 1) {
-            if ($this->course_is_starred($COURSE->id)) {
+            echo "here";
+            if ($lib::course_is_starred($USER->id, $COURSE->id)) {
                 $linktext = 'Unstar current course';
             } else {
                 $linktext = 'Star current course';
             }
+
+            $this->config->footer = new stdClass();
+            $this->config->footer->url = new moodle_url('/blocks/filtered_course_list/toggle_starred.php', array('courseid' => $COURSE->id));
+            $this->config->footer->linktext = $linktext;
         }
 
         // $this->config->footer = html_writer::link(
@@ -149,9 +164,6 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
         //     $linktext,
         //     array('class' => 'starlink')
         // );
-        $this->config->footer = new stdClass();
-        $this->config->footer->url = new moodle_url('/toggle_starred.php', array('courseid' => $COURSE->id));
-        $this->config->footer->linktext = $linktext;
         // $this->config->footer = "test";
 
         $this->rubrics[] = new block_filtered_course_list_rubric(
@@ -162,38 +174,8 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
         return $this->rubrics;
     }
 
-    public function course_is_starred($userid, $courseid) {
-        if ($starred = get_starred_course_ids($userid)) {
-            return in_array($courseid, $starred);
-        }
-        return false;
-    }
-
-    public function get_starred_courses($userid) {
-        global $DB;
-
-        $starred_courses = array();
-        if ($starred_ids = $this->get_starred_course_ids($userid)) {
-            foreach ($starred_ids as $courseid) {
-                $course = $DB->get_record('course', array('id' => $courseid));
-                $starred_courses[] = $course;
-            }
-        }
-        return $starred_courses;
-    }
-
-    public function get_starred_course_ids($userid) {
-        $starred = get_user_preferences('starred_courses', false, $userid);
-        if ($starred = explode(',', $starred)) {
-            return $starred;
-        }
-        return false;
-    }
-
-    public function initialize_starred_courses_user_preference($userid) {
-        if (! get_user_preferences('starred_courses', false, $userid)) {
-            set_user_preference('starred_courses', '', $userid);
-        }
+    public function get_no_courses_content() {
+        return $this->get_starlink();
     }
 }
 
@@ -580,5 +562,63 @@ class block_filtered_course_list_lib {
         );
         $displaytext = str_replace(array_keys($replacements), $replacements, $tpl);
         return strip_tags($displaytext);
+    }
+}
+
+class block_filtered_course_list_starred_lib {
+    public static function course_is_starred($userid, $courseid) {
+        if ($starred = static::get_starred_course_ids($userid)) {
+            return in_array($courseid, $starred);
+        }
+        return false;
+    }
+
+    public static function get_starred_courses($userid) {
+        global $DB;
+
+        $starred_courses = array();
+        if ($starred_ids = static::get_starred_course_ids($userid)) {
+            foreach ($starred_ids as $courseid) {
+                $course = $DB->get_record('course', array('id' => $courseid));
+                $starred_courses[] = $course;
+            }
+        }
+        return $starred_courses;
+    }
+
+    public static function get_starred_course_ids($userid) {
+        $starred = get_user_preferences('starred_courses', false, $userid);
+        if (!empty($starred) && $starred = explode(',', $starred)) {
+            return $starred;
+        }
+        return false;
+    }
+
+    public static function initialize_starred_courses_user_preference($userid) {
+        if (! get_user_preferences('starred_courses', false, $userid)) {
+            set_user_preference('starred_courses', '', $userid);
+        }
+    }
+
+    public static function star_course($userid, $courseid) {
+        if ($starred = static::get_starred_course_ids($userid)) {
+            if (! in_array($courseid, $starred)) {
+                $starred[] = $courseid;
+                $starred = implode(',', array_filter($starred));
+                return set_user_preference('starred_courses', $starred, $userid);
+            }
+        }
+        return false;
+    }
+
+    public static function unstar_course($userid, $courseid) {
+        if ($starred = static::get_starred_course_ids($userid)) {
+            if (($key = array_search($courseid, $starred)) !== false) {
+                unset($starred[$key]);
+                $starred = implode(',', array_filter($starred));
+                return set_user_preference('starred_courses', $starred, $userid);
+            }
+        }
+        return false;
     }
 }
