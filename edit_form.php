@@ -81,12 +81,8 @@ class block_filtered_course_list_edit_form extends block_edit_form {
             $mform->setDefault($fname, $edit_form->get_default_title());
             $mform->setType($fname, PARAM_RAW);
 
-            // Allow header?
-
-            // Allow footer?
-
             // And allow the external filter to add any custom settings.
-            $class::specific_definition($mform);
+            // $editform::specific_definition($mform);
         }
     }
 }

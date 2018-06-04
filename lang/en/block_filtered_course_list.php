@@ -24,7 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['exfilter_header'] = "{$a} Filter Settings";
+$string['exfilter:form:header'] = '{$a} Filter Settings';
+$string['exfilter:form:label_title'] = "Filter Title";
 
 $string['filtered_course_list:addinstance'] = 'Add a new Filtered course list block';
 $string['filtered_course_list:myaddinstance'] = 'Add a new Filtered course list block to My home';
