@@ -155,6 +155,12 @@ class renderable_rubric implements \renderable, \templatable {
             'key'    => $this->key + 1,
             'items'  => array_values($itemdata),
         );
+        if ($footer = $this->rubric->config->footer) {
+            // $data['footer'] = $footer;
+            $data['hasfooter'] = true;
+            $data['url'] = $footer->url;
+            $data['linktext'] = $footer->linktext;
+        }
         return $data;
     }
 }

@@ -24,6 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['notify:course_unstarred'] = "Course {$a->fullname} has been unstarred";
+$string['notify:course_starred'] = "Course {$a->fullname} has been starred";
+
 $string['filtered_course_list:addinstance'] = 'Add a new Filtered course list block';
 $string['filtered_course_list:myaddinstance'] = 'Add a new Filtered course list block to My home';
 $string['managerview']              = 'Manager view';

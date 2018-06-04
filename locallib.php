@@ -102,7 +102,6 @@ abstract class block_filtered_course_list_configline {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_filtered_course_list_starred_configline extends block_filtered_course_list_configline {
-
     /**
      * Validate the line
      *
@@ -111,6 +110,8 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
      * @return array A fixed-up line array
      */
     public function validate_line($line) {
+        global $USER;
+
         $USER->id;
         $this->initialize_starred_courses_user_preference($USER->id);
 
@@ -121,9 +122,6 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
         $this->validate_expanded(0, $values);
         if (!array_key_exists(1, $values)) {
             $values[1] = get_string('courses', 'block_filtered_course_list');
-        }
-        if (!array_key_exists(2, $values)) {
-            $values[2] = '';
         }
         return array_combine($keys, $values);
     }
@@ -136,10 +134,6 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
     public function get_rubrics() {
         global $USER, $COURSE;
 
-        if (empty($courselist)) {
-            return null;
-        }
-
         $courselist = $this->get_starred_courses($USER->id);
 
         if (isset($COURSE) && $COURSE->id > 1) {
@@ -150,11 +144,15 @@ class block_filtered_course_list_starred_configline extends block_filtered_cours
             }
         }
 
-        $this->config->footer = html_writer::link(
-            new moodle_url('/toggle_starred.php', array('courseid' => $COURSE->id)),
-            $linktext,
-            array('class' => 'starlink')
-        );
+        // $this->config->footer = html_writer::link(
+        //     new moodle_url('/toggle_starred.php', array('courseid' => $COURSE->id)),
+        //     $linktext,
+        //     array('class' => 'starlink')
+        // );
+        $this->config->footer = new stdClass();
+        $this->config->footer->url = new moodle_url('/toggle_starred.php', array('courseid' => $COURSE->id));
+        $this->config->footer->linktext = $linktext;
+        // $this->config->footer = "test";
 
         $this->rubrics[] = new block_filtered_course_list_rubric(
             $this->line['label'],
