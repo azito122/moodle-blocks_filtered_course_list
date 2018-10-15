@@ -218,7 +218,7 @@ class block_filtered_course_list extends block_base {
         $this->rubrics = array_reduce(
             array_filter(
                 array_map(function($config) {
-                    $classname = "\\block_filtered_course_list\\{$config[0]}_filter";
+                    $classname = get_filter($config[0]);
                     if (class_exists($classname)) {
                         $item = new $classname($config, $this->mycourses, $this->fclconfig);
                         return $item->get_rubrics();

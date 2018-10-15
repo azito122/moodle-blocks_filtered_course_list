@@ -28,6 +28,38 @@ require_once(dirname(__FILE__) . '/locallib.php');
 
 if ($ADMIN->fulltree) {
 
+    $dir = new RecursiveDirectoryIterator($CFG->dirroot);
+    $itr = new RecursiveIteratorIterator($dir);
+    foreach($itr as $file) {
+        if(preg_match('/.*fcl_filter\.php/', $file)) {
+            require_once($file);
+        }
+    }
+
+    $exfilters = array_filter(get_declared_classes(), function($class) {
+        return preg_match('/.*fcl_external_filter/', $class);
+    });
+
+    $options = array();
+
+    foreach($exfilters as $classname) {
+        $shortname = $classname::getshortname();
+        $fullname = $classname::getfullname();
+        $component = $classname::getcomponent();
+        $path = (new ReflectionClass($classname))->getFileName();
+
+        $val = "$shortname|$component|$path";
+        $label = "$fullname ($component)";
+        $options[$val] = $label;
+    }
+
+    $settings->add(new admin_setting_configmultiselect('block_filtered_course_list/externalfilters',
+        'External Filters',
+        'Enabled external filters',
+        array(),
+        $options
+    ));
+
     $settings->add(new admin_setting_configtextarea('block_filtered_course_list/filters',
         get_string('filters', 'block_filtered_course_list'),
         get_string('configfilters', 'block_filtered_course_list'),
