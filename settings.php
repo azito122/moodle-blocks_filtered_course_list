@@ -48,7 +48,7 @@ if ($ADMIN->fulltree) {
         $component = $classname::getcomponent();
         $path = (new ReflectionClass($classname))->getFileName();
 
-        $val = "$shortname|$component|$path";
+        $val = "$shortname|$path";
         $label = "$fullname ($component)";
         $options[$val] = $label;
     }

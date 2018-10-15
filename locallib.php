@@ -52,8 +52,7 @@ function get_filter($name) {
         }
         // Split out filter info.
         $filterinfo = explode('|', $exfilters[0]);
-        $component = $filterinfo[1];
-        $path = $filterinfo[2];
+        $path = $filterinfo[1];
         // Set class name.
         $classname = "{$name}_fcl_external_filter";
         // Require path.
