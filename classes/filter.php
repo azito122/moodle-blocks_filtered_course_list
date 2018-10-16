@@ -44,7 +44,7 @@ abstract class filter {
     public $rubrics = array();
     /** @var string The shortname of this filter (e.g. shortname, category) */
     public static $shortname;
-    /** @var string The fullname of this filter (e.g. Shortname Filter, Category Filter) */
+    /** @var string The fullname of this filter (e.g. Shortname, Course Category) */
     public static $category;
     /** @var string The component of this filter (e.g. block_filtered_course_list) */
     public static $component;
