@@ -34,6 +34,32 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class shortname_filter extends \block_filtered_course_list\filter {
+    /**
+     * Retrieve filter short name.
+     *
+     * @return string This filter's shortname.
+     */
+    public static function getshortname() {
+        return 'shortname';
+    }
+
+    /**
+     * Retrieve filter full name.
+     *
+     * @return string This filter's shortname.
+     */
+    public static function getfullname() {
+        return 'Course Shortname';
+    }
+
+    /**
+     * Retrieve filter component.
+     *
+     * @return string This filter's component.
+     */
+    public static function getcomponent() {
+        return 'block_filtered_course_list';
+    }
 
     /**
      * Validate the line
