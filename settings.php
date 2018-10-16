@@ -37,7 +37,7 @@ if ($ADMIN->fulltree) {
     }
 
     $exfilters = array_filter(get_declared_classes(), function($class) {
-        return preg_match('/.*fcl_external_filter/', $class);
+        return preg_match('/.*fcl_filter/', $class);
     });
 
     $options = array();
