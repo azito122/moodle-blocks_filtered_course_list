@@ -54,7 +54,7 @@ function get_filter($name) {
         $filterinfo = explode('|', $exfilters[0]);
         $path = $filterinfo[1];
         // Set class name.
-        $classname = "{$name}_fcl_external_filter";
+        $classname = "{$name}_fcl_filter";
         // Require path.
         require_once($path);
     }
