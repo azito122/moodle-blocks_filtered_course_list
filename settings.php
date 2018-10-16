@@ -31,7 +31,7 @@ if ($ADMIN->fulltree) {
     $dir = new RecursiveDirectoryIterator($CFG->dirroot);
     $itr = new RecursiveIteratorIterator($dir);
     foreach($itr as $file) {
-        if(preg_match('/.*fcl_filter\.php/', $file)) {
+        if(preg_match('/.*fcl_filter\.php$/', $file)) {
             require_once($file);
         }
     }
