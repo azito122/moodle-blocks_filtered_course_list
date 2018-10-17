@@ -53,7 +53,7 @@ if ($ADMIN->fulltree) {
         $options[$val] = $label;
     }
 
-    $settings->add(new admin_setting_configmultiselect('block_filtered_course_list/externalfilters',
+    $settings->add(new admin_setting_configmulticheckbox('block_filtered_course_list/externalfilters',
         get_string('externalfilters', 'block_filtered_course_list'),
         get_string('configexternalfilters', 'block_filtered_course_list'),
         array(),
