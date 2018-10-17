@@ -53,11 +53,8 @@ function get_filter($name, $exfilters) {
         $component = $filterinfo[1];
         $path = $filterinfo[2];
 
-        $pluginmanager = \core_plugin_manager::instance();
-        $plugininfo = $pluginmanager->get_plugin_info('local_starred_courses');
-
         // Check that path exists, that plugin is installed, and that this filter is from the plugin's code.
-        if (file_exists($path) && $plugininfo && strpos($path, $plugininfo->rootdir) === 0) {
+        if (file_exists($path)) {
             // Set class name.
             $classname = "{$name}_fcl_filter";
             // Require path.

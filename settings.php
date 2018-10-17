@@ -48,9 +48,14 @@ if ($ADMIN->fulltree) {
         $component = $classname::getcomponent();
         $path = (new ReflectionClass($classname))->getFileName();
 
-        $val = "$shortname|$component|$path";
-        $label = "$fullname ($shortname) from $component";
-        $options[$val] = $label;
+        // Check that path exists, that plugin is installed, and that this filter is from the plugin's code.
+        $pluginmanager = \core_plugin_manager::instance();
+        $plugininfo = $pluginmanager->get_plugin_info('local_starred_courses');
+        if (file_exists($path) && $plugininfo && strpos($path, $plugininfo->rootdir) === 0) {
+            $val = "$shortname|$component|$path";
+            $label = "$fullname ($shortname) from $component";
+            $options[$val] = $label;
+        }
     }
 
     $settings->add(new admin_setting_configmulticheckbox('block_filtered_course_list/externalfilters',
