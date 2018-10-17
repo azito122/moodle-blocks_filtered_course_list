@@ -51,10 +51,14 @@ function get_filter($name, $exfilters) {
         // Split out filter info.
         $filterinfo = explode('|', $exfilters[0]);
         $path = $filterinfo[1];
-        // Set class name.
-        $classname = "{$name}_fcl_filter";
-        // Require path.
-        require_once($path);
+        if (file_exists($path)) {
+            // Set class name.
+            $classname = "{$name}_fcl_filter";
+            // Require path.
+            require_once($path);
+        } else {
+            $classname = false;
+        }
     }
     return $classname;
 }
