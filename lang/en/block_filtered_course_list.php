@@ -47,6 +47,8 @@ $string['configtitle']              = 'Block title';
 $string['coursenametpl']            = 'Course name template';
 $string['courses']                  = 'Courses';
 $string['defaultfilters']           = 'category | collapsed | 0 (top level) | 0 (all descendants)';
+$string['externalfilters']          = 'External Filters';
+$string['configexternalfilters']    = 'Use the identifier in parenthesis to reference the filter within the filter config textarea. For infromation on the configuration available for an external filter, see the plugin providing it.';
 $string['filters']                  = 'Filter configuration';
 $string['filters_help']             = 'Enter one filter per line using vertical bars to separate filter elements. Filter types are: <i>category</i>, <i>shortname</i>, <i>regex</i>, <i>completion</i> and <i>generic</i>. <br /><br />Full details at <a href="https://github.com/CLAMP-IT/moodle-blocks_filtered_course_list/wiki/Filter-syntax">https://github.com/CLAMP-IT/moodle-blocks_filtered_course_list/wiki/Filter-syntax</a>.';
 $string['hideallcourseslink']       = 'Hide "All courses" link';
