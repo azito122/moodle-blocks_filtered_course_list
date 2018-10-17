@@ -32,7 +32,7 @@ define('BLOCK_FILTERED_COURSE_LIST_EMPTY', '');
 define('BLOCK_FILTERED_COURSE_LIST_FALSE', 0);
 define('BLOCK_FILTERED_COURSE_LIST_TRUE', 1);
 
-function get_filter($name) {
+function get_filter($name, $exfilters) {
     if (empty($name)) {
         return null;
     }
@@ -40,8 +40,6 @@ function get_filter($name) {
     $classname = "\\block_filtered_course_list\\{$name}_filter";
     // If not base filter, look for external filter.
     if (!class_exists($classname)) {
-        // Get external filter list.
-        $exfilters = get_config('block_filtered_course_list', 'externalfilters');
         // Find the filter we're looking for.
         $exfilters = array_filter(explode(',', $exfilters), function($info) use($name) {
             return strpos($info, "$name|") === 0;
