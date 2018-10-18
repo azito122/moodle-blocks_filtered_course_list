@@ -50,7 +50,7 @@ if ($ADMIN->fulltree) {
 
         // Check that path exists, that plugin is installed, and that this filter is from the plugin's code.
         $pluginmanager = \core_plugin_manager::instance();
-        $plugininfo = $pluginmanager->get_plugin_info('local_starred_courses');
+        $plugininfo = $pluginmanager->get_plugin_info($component);
         if (file_exists($path) && $plugininfo && strpos($path, $plugininfo->rootdir) === 0) {
             $val = "$shortname|$component|$path";
             $label = "$fullname ($shortname) from $component";
