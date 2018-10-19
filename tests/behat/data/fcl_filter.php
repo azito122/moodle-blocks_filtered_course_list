@@ -25,7 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 // This will be running from course/format/topics.
-require_once(dirname(__FILE__) . '/../../../blocks/filtered_course_list/locallib.php');
+$path = dirname(__FILE__) . '/../../../blocks/filtered_course_list/locallib.php';
+if (file_exists($path)) {
+    require_once($path);
+}
 
 /**
  * A class to construct rubrics based on starred courses from local_starred_courses
