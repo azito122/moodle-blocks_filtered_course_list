@@ -62,12 +62,16 @@ if ($ADMIN->fulltree) {
         }
     }
 
-    $settings->add(new admin_setting_configmulticheckbox('block_filtered_course_list/externalfilters',
-        get_string('externalfilters', 'block_filtered_course_list'),
-        get_string('configexternalfilters', 'block_filtered_course_list'),
-        array(),
-        $options
-    ));
+    if (empty($options)) {
+        set_config('externalfilters', '', 'block_filtered_course_list');
+    } else {
+        $settings->add(new admin_setting_configmulticheckbox('block_filtered_course_list/externalfilters',
+            get_string('externalfilters', 'block_filtered_course_list'),
+            get_string('configexternalfilters', 'block_filtered_course_list'),
+            array(),
+            $options
+        ));
+    }
 
     $settings->add(new admin_setting_configtextarea('block_filtered_course_list/filters',
         get_string('filters', 'block_filtered_course_list'),
