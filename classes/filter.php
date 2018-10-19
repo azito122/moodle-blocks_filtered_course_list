@@ -58,6 +58,13 @@ interface filter_interface {
      * @return string This filter's component.
      */
     static function getcomponent();
+
+    /**
+     * Retrieve filter version sync number.
+     *
+     * @return string This filter's version sync number.
+     */
+    static function getversionsyncnum();
 }
 
 /**

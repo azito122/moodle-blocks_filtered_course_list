@@ -46,12 +46,16 @@ if ($ADMIN->fulltree) {
         $shortname = $classname::getshortname();
         $fullname = $classname::getfullname();
         $component = $classname::getcomponent();
+        $versionsyncnum = $classname::getversionsyncnum();
         $path = (new ReflectionClass($classname))->getFileName();
 
-        // Check that path exists, that plugin is installed, and that this filter is from the plugin's code.
+        // Check that path exists, that plugin is installed, that this filter is from the plugin's code, and that versions sync.
         $pluginmanager = \core_plugin_manager::instance();
         $plugininfo = $pluginmanager->get_plugin_info($component);
-        if (file_exists($path) && $plugininfo && strpos($path, $plugininfo->rootdir) === 0) {
+        if (file_exists($path)
+        && $plugininfo
+        && strpos($path, $plugininfo->rootdir) === 0
+        && $versionsyncnum === BLOCK_FILTERED_COURSE_LIST_FILTER_VERSION_SYNC_NUMBER) {
             $val = "$shortname|$component|$path";
             $label = "$fullname ($shortname) from $component";
             $options[$val] = $label;

@@ -31,6 +31,7 @@ define('BLOCK_FILTERED_COURSE_LIST_DEFAULT_CATEGORY', 0);
 define('BLOCK_FILTERED_COURSE_LIST_EMPTY', '');
 define('BLOCK_FILTERED_COURSE_LIST_FALSE', 0);
 define('BLOCK_FILTERED_COURSE_LIST_TRUE', 1);
+define('BLOCK_FILTERED_COURSE_LIST_FILTER_VERSION_SYNC_NUMBER', 1);
 
 function get_filter($name, $exfilters) {
     if (empty($name)) {
@@ -53,7 +54,7 @@ function get_filter($name, $exfilters) {
         $component = $filterinfo[1];
         $path = $filterinfo[2];
 
-        // Check that path exists, that plugin is installed, and that this filter is from the plugin's code.
+        // Check that path exists.
         if (file_exists($path)) {
             // Set class name.
             $classname = "{$name}_fcl_filter";

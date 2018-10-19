@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/blocks/filtered_course_list/locallib.php');
+
 /**
  * A class to construct rubrics based on starred courses from local_starred_courses
  *
@@ -57,6 +59,15 @@ class test_fcl_filter extends \block_filtered_course_list\filter {
      */
     public static function getcomponent() {
         return 'format_topics';
+    }
+
+    /**
+     * Retrieve filter version sync number.
+     *
+     * @return string This filter's version sync number.
+     */
+    public static function getversionsyncnum() {
+        return BLOCK_FILTERED_COURSE_LIST_FILTER_VERSION_SYNC_NUMBER;
     }
 
     /**
