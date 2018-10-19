@@ -51,7 +51,6 @@ function get_filter($name, $exfilters) {
         }
         // Split out filter info.
         $filterinfo = explode('|', $exfilters[0]);
-        $component = $filterinfo[1];
         $path = $filterinfo[2];
 
         // Check that path exists.

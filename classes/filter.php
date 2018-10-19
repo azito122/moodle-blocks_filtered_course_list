@@ -43,28 +43,28 @@ interface filter_interface {
      *
      * @return string This filter's shortname.
      */
-    static function getshortname();
+    public static function getshortname();
 
     /**
      * Retrieve filter full name.
      *
      * @return string This filter's shortname.
      */
-    static function getfullname();
+    public static function getfullname();
 
     /**
      * Retrieve filter component.
      *
      * @return string This filter's component.
      */
-    static function getcomponent();
+    public static function getcomponent();
 
     /**
      * Retrieve filter version sync number.
      *
      * @return string This filter's version sync number.
      */
-    static function getversionsyncnum();
+    public static function getversionsyncnum();
 }
 
 /**

@@ -30,8 +30,8 @@ if ($ADMIN->fulltree) {
 
     $dir = new RecursiveDirectoryIterator($CFG->dirroot);
     $itr = new RecursiveIteratorIterator($dir);
-    foreach($itr as $file) {
-        if(preg_match('/.*fcl_filter\.php$/', $file)) {
+    foreach ($itr as $file) {
+        if (preg_match('/.*fcl_filter\.php$/', $file)) {
             require_once($file);
         }
     }
@@ -42,7 +42,7 @@ if ($ADMIN->fulltree) {
 
     $options = array();
 
-    foreach($exfilters as $classname) {
+    foreach ($exfilters as $classname) {
         $shortname = $classname::getshortname();
         $fullname = $classname::getfullname();
         $component = $classname::getcomponent();

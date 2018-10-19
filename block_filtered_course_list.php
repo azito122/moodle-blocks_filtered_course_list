@@ -99,7 +99,7 @@ class block_filtered_course_list extends block_base {
      * @return stdClass The block contents
      */
     public function get_content() {
-        global $CFG, $PAGE;
+        global $PAGE;
 
         if ($this->content !== null) {
             return $this->content;
