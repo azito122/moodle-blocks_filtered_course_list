@@ -45,8 +45,8 @@ class behat_block_filtered_course_list extends behat_base {
      * @BeforeSuite
      */
     public static function before_suite(BeforeSuiteScope $scope) {
-        $frompath = __DIR__ . '/data/fcl_filter.php';
-        $topath = __DIR__ . '/../../../../course/format/topics/fcl_filter.php';
+        $frompath = __DIR__ . '/data/external_filter.php';
+        $topath = __DIR__ . '/data/fcl_filter.php';
         if (file_exists($frompath)) {
             rename($frompath, $topath);
         }
@@ -59,8 +59,8 @@ class behat_block_filtered_course_list extends behat_base {
      * @AfterSuite
      */
     public static function after_suite(AfterSuiteScope $scope) {
-        $topath = __DIR__ . '/data/fcl_filter.php';
-        $frompath = __DIR__ . '/../../../../course/format/topics/fcl_filter.php';
+        $frompath = __DIR__ . '/data/fcl_filter.php';
+        $topath = __DIR__ . '/data/external_filter.php';
         if (file_exists($frompath)) {
             rename($frompath, $topath);
         }

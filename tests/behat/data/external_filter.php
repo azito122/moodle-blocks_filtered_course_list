@@ -59,7 +59,7 @@ class test_fcl_filter extends \block_filtered_course_list\filter {
      * @return string The component of this filter (e.g. block_filtered_course_list)
      */
     public static function getcomponent() {
-        return 'format_topics';
+        return 'block_filtered_course_list';
     }
 
     /**

@@ -22,8 +22,8 @@ Feature: External filters can be scanned and used
     And I log in as "admin"
     And I am on site homepage
     And I navigate to "Plugins > Blocks > Filtered course list" in site administration
-    Then "input[type='checkbox'][id*='id_s_block_filtered_course_list_externalfilters_test|format_topics|/course/format/topics']" "css_element" should exist
-    And I click on "input[type='checkbox'][id*='id_s_block_filtered_course_list_externalfilters_test|format_topics|/course/format/topics']" "css_element"
+    Then "input[type='checkbox'][id*='id_s_block_filtered_course_list_externalfilters_test|block_filtered_course_list|/blocks/filtered_course_list/tests/behat/data']" "css_element" should exist
+    And I click on "input[type='checkbox'][id*='id_s_block_filtered_course_list_externalfilters_test|block_filtered_course_list|/blocks/filtered_course_list/tests/behat/data']" "css_element"
     And I press "Save changes"
     And I set the multiline "block_filtered_course_list" "filters" setting as admin to:
     """
@@ -43,7 +43,7 @@ Feature: External filters can be scanned and used
     Given I log in as "admin"
     And I am on site homepage
     And I navigate to "Plugins > Blocks > Filtered course list" in site administration
-    And I click on "input[type='checkbox'][id*='id_s_block_filtered_course_list_externalfilters_test|format_topics|/course/format/topics']" "css_element"
+    And I click on "input[type='checkbox'][id*='id_s_block_filtered_course_list_externalfilters_test|block_filtered_course_list|/blocks/filtered_course_list/tests/behat/data']" "css_element"
     And I press "Save changes"
     And I log out
 
