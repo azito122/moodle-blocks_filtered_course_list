@@ -53,18 +53,19 @@ function get_filter($name, $exfilters) {
         }
         // Split out filter info.
         $filterinfo = explode('|', $exfilters[0]);
-        $path = $filterinfo[2];
+        $path = $CFG->dirroot . $filterinfo[2];
 
         // Check that path exists.
         if (file_exists($path)) {
             // Set class name.
             $classname = "{$name}_fcl_filter";
             // Require path.
-            require_once($CFG->dirroot . $path);
+            require_once($path);
         } else {
             $classname = false;
         }
     }
+    print($classname);
     return $classname;
 }
 
