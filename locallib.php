@@ -34,6 +34,8 @@ define('BLOCK_FILTERED_COURSE_LIST_TRUE', 1);
 define('BLOCK_FILTERED_COURSE_LIST_FILTER_VERSION_SYNC_NUMBER', '1.0.0');
 
 function get_filter($name, $exfilters) {
+    global $CFG;
+
     if (empty($name)) {
         return null;
     }
@@ -58,7 +60,7 @@ function get_filter($name, $exfilters) {
             // Set class name.
             $classname = "{$name}_fcl_filter";
             // Require path.
-            require_once($path);
+            require_once($CFG->dirroot . $path);
         } else {
             $classname = false;
         }
